@@ -1,0 +1,8 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <include file="migration/1.0/changelog-1.0.xml"/>
+    <changeSet id="1" author="alsu-ismayilzada">
+        <sqlFile path="migration/static data/insert_static_data.sql"/>
+    </changeSet>
+</databaseChangeLog>
