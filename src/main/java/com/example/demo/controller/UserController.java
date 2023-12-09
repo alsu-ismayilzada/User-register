@@ -1,48 +1,56 @@
 package com.example.demo.controller;
 
-
+import com.example.demo.config.MailSenderService;
 import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
-import com.example.demo.service.impl.UserImpl;
+import com.example.demo.repository.UserRepository;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+
 
 @RestController
 @RequestMapping("/api/user")
 
 public class UserController {
 
-    private final UserService userService;
-    private final UserImpl userImpl;
+    private final UserDetailsService userDetailsService;
+    @Autowired
+    private UserRepository userRepository;
+    private final MailSenderService mailSenderService;
 
 
-    public UserController(UserService userService, UserImpl userImpl) {
-        this.userService = userService;
-        this.userImpl = userImpl;
+    public UserController(UserDetailsService userDetailsService, MailSenderService mailSenderService) {
+        this.userDetailsService = userDetailsService;
+
+        this.mailSenderService = mailSenderService;
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody User user){
-        userService.save(user);
+    public void save(@RequestBody User  user){
+        userRepository.save(user);
     }
 
     @GetMapping("/{id}")
     User getById(@PathVariable int id) {
-        return userImpl.getById(id);
+        return userRepository.getById(id);
     }
-    @GetMapping("/{mail}")
+    @GetMapping("/mail/{mail}")
     User getByMail(@PathVariable String mail) {
-        return userService.getByMail(mail);
+        return userRepository.getByMail(mail);
+    }
+    @GetMapping("/name/{name}")
+    User getByName(@PathVariable String name) {
+        return userRepository.getByName(name);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable int id){
-        userService.deleteById(id);
+        userRepository.deleteById(id);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody User user){
-//        User user1 = userService.login(user);
-//        return ResponseEntity.ok(user1);
-//    }
+
+
 
 }
